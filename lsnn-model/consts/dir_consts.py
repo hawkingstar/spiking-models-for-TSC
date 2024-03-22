@@ -1,9 +1,12 @@
 import _init_paths
 from consts.exp_consts import EXC
 
-BASE_DIR = "/home/rgaurav/Documents/Projects/"
-RESULTS_DIR = BASE_DIR + "/ExpResults/final_results/LSNN/ECG5000/seed_9/results/"
-DATA_DIR = BASE_DIR + "/lsnn_model/data/"
+# BASE_DIR = "/home/rgaurav/Documents/Projects/"
+# RESULTS_DIR = BASE_DIR + "/ExpResults/final_results/LSNN/ECG5000/seed_9/results/"
+# DATA_DIR = BASE_DIR + "/lsnn_model/data/"
+BASE_DIR = "/workspaces/spiking-models-for-TSC"
+RESULTS_DIR = "/workspaces/spiking-models-for-TSC/results/lsnn-results"
+DATA_DIR = "/workspaces/spiking-models-for-TSC/datasets"
 
 class DRC(object):
 
@@ -28,6 +31,7 @@ class DRC(object):
       self._data_path = DATA_DIR +"/FORDA/"
       self._results_path = RESULTS_DIR +"/FORDA/"
       self._pre_proc_data_path = DATA_DIR + "/FORDA/pre_processed_data/"
+      #Paul: I don't have preprocessed data and can't find where the model actually uses it yet.
       self._train_set = "FordA_TRAIN.arff"
       self._test_set = "FordA_TEST.arff"
       self._do_shuffle = True
