@@ -21,3 +21,5 @@ python pyt_train_eval_lsnn_and_lsnn_nhdn_model.py --dataset=FORDA --epochs=5 --i
 #SBATCH --time=144:00:00
 OMP_NUM_THREADS=4 
 python train_eval_lsnn_and_lsnn_nhdn.py --dataset=FORDA --epochs=5 --is_all_combs=1 --meta_cfg_dir=normalize_no_out_v_decay_yes_order_10_theta_0_10
+
+#Paul: to create a new dataset, change the main command, change the run time constants, the exp and directory constants, and... the paths? 

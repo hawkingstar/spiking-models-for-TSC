@@ -9,13 +9,16 @@ class RTC(object):
 
   BATCH_SIZE = 23 # 50 for LSNN - ECG5000 and WAFER, 23 for EQUAKES.
   #BATCH_SIZE = 18 # 45 for LSNN 40 for FORDA, 18 for FORDB.
+  #still determining an ideal batch size for COMPUTERS
 
   # Number of test samples to evaluate during training epochs.
   #TEST_EVAL_SIZE = 4500 # For ECG5000
   #TEST_EVAL_SIZE = 1320 # For FORDA
   #TEST_EVAL_SIZE = 810 # For FORDB
   #TEST_EVAL_SIZE = 6150 # For WAFER.
-  TEST_EVAL_SIZE = 138 # For EQUAKES
+  #TEST_EVAL_SIZE = 138 # For EQUAKES
+  TEST_EVAL_SIZE = 250 # For COMPUTERS... Paul thinks...
+
 
   DEBUG = False
   NORMALIZE_DATASET = False

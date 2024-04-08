@@ -69,6 +69,6 @@ class DRC(object):
       self._results_path = RESULTS_DIR +"/COMPUTERS/"
       self._pre_proc_data_path = DATA_DIR + "/COMPUTERS/pre_processed_data/"
       #Paul: I don't have preprocessed data and can't find where the model actually uses it yet.
-      self._train_set = "COMPUTERS_TRAIN.arff"
-      self._test_set = "COMPUTERS_TEST.arff"
+      self._train_set = "Computers_TRAIN.arff"
+      self._test_set = "Computers_TEST.arff"
       self._do_shuffle = True
