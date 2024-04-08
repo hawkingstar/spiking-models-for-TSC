@@ -58,10 +58,13 @@ class PTTrainEvalModel(object):
     """
     log.INFO("Obtaining experiment compatible X-Y data...")
 
-    if is_train == True and os.path.exists(ldn_path+"/train_X_ldn_sigs.p"):
+    if is_train == True and os.path.exists(ldn_path+"/train_X_ldn_sigs.p"):#Paul ran across a problem around here. 
       log.INFO("Found the already extracted LDN sigs of complete train data.")
       X_ldn = pickle.load(open(ldn_path+"/train_X_ldn_sigs.p", "rb"))
+      log.INFO("was able to load from pickle the X_ldn")#added these as printables to keep track of what gets through. 
       Y = pickle.load(open(ldn_path+"/train_Y.p", "rb"))
+      log.INFO("Was able to load from pickle the Y")
+      #I don't know if the previous pickle load is meant to complete before this log message goes through. 
     elif is_train == False and os.path.exists(ldn_path+"/test_X_ldn_sigs.p"):
       log.INFO("Found the already extracted LDN sigs of complete test data.")
       X_ldn = pickle.load(open(ldn_path+"/test_X_ldn_sigs.p", "rb"))
@@ -97,8 +100,10 @@ class PTTrainEvalModel(object):
         pickle.dump(X_ldn, open(ldn_path+"/test_X_ldn_sigs.p", "wb"))
         pickle.dump(Y, open(ldn_path+"/test_Y.p", "wb"))
 
+    log.INFO("begin yielding process")
     for i in range(0, X_ldn.shape[0], self._batch_size):
       yield(
+
           torch.as_tensor(X_ldn[i : i+self._batch_size], dtype=EXC.PT_DTYPE),
           torch.as_tensor(Y[i : i+self._batch_size], dtype=EXC.PT_DTYPE))
 
@@ -134,6 +139,8 @@ class PTTrainEvalModel(object):
 
         max_pots, _ = torch.max(output, 1)
         log_max_pots = log_softmax(max_pots)
+        #loss_value = loss_func(log_max_pots, torch.argmax(tr_y, dim=1))
+        #trying dimension zero to see what happens
         loss_value = loss_func(log_max_pots, torch.argmax(tr_y, dim=1))
 
         optimizer.zero_grad()
