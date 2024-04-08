@@ -12,20 +12,24 @@ class EXC(object):
   FORDB = "FORDB"
   WAFER = "WAFER"
   EQUAKES = "EQUAKES"
+  #added variables in EXC for computers dataset. 
+  COMPUTERS = "COMPUTERS"
 
   SIGNAL_DURATION = {
     ECG5000: 140,
     FORDA: 500,
     FORDB: 500,
     WAFER: 152,
-    EQUAKES: 512
+    EQUAKES: 512,
+    COMPUTERS: 720
   }
   NUM_CLASSES = {
     ECG5000: 2,
     FORDA: 2,
     FORDB: 2,
     WAFER: 2,
-    EQUAKES: 2
+    EQUAKES: 2,
+    COMPUTERS: 2
   }
 
   NUM_TEST_SAMPLES = {
@@ -33,7 +37,8 @@ class EXC(object):
     FORDA: 1320,
     FORDB: 810,
     WAFER: 6150, # Originally: 6164, discard last 14 to suit the batch size in net.
-    EQUAKES: 138 # Originally: 139, discard last 1 to suit the batch in net.
+    EQUAKES: 138, # Originally: 139, discard last 1 to suit the batch in net.
+    COMPUTERS: 250
   }
 
   # PyTorch Hyper-parameters for LSNN -------- PRE ANALYSIS = 972 Combs.

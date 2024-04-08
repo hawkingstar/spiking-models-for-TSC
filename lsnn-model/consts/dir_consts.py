@@ -62,3 +62,13 @@ class DRC(object):
       self._train_set = "Earthquakes_TRAIN.arff"
       self._test_set = "Earthquakes_TEST.arff"
       self._do_shuffle = True
+    
+    elif dataset == EXC.COMPUTERS:
+      self._dataset = dataset
+      self._data_path = DATA_DIR +"/COMPUTERS/"
+      self._results_path = RESULTS_DIR +"/COMPUTERS/"
+      self._pre_proc_data_path = DATA_DIR + "/COMPUTERS/pre_processed_data/"
+      #Paul: I don't have preprocessed data and can't find where the model actually uses it yet.
+      self._train_set = "COMPUTERS_TRAIN.arff"
+      self._test_set = "COMPUTERS_TEST.arff"
+      self._do_shuffle = True
