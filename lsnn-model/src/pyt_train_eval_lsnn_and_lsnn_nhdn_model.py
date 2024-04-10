@@ -59,18 +59,19 @@ class PTTrainEvalModel(object):
     log.INFO("Obtaining experiment compatible X-Y data...")
 
     if is_train == True and os.path.exists(ldn_path+"/train_X_ldn_sigs.p"):#Paul ran across a problem around here. 
-      log.INFO("Found the already extracted LDN sigs of complete train data.")
-      X_ldn = pickle.load(open(ldn_path+"/train_X_ldn_sigs.p", "rb"))
+      log.INFO("Found the already extracted LDN sigs of complete train data. IF Path.")
+      X_ldn = pickle.load(open(ldn_path+"/train_X_ldn_sigs.p", "rb"))#something starts here? after going back
       log.INFO("was able to load from pickle the X_ldn")#added these as printables to keep track of what gets through. 
       Y = pickle.load(open(ldn_path+"/train_Y.p", "rb"))
       log.INFO("Was able to load from pickle the Y")
       #I don't know if the previous pickle load is meant to complete before this log message goes through. 
     elif is_train == False and os.path.exists(ldn_path+"/test_X_ldn_sigs.p"):
-      log.INFO("Found the already extracted LDN sigs of complete test data.")
+      log.INFO("Found the already extracted LDN sigs of complete test data. ELIF")
       X_ldn = pickle.load(open(ldn_path+"/test_X_ldn_sigs.p", "rb"))
       Y = pickle.load(open(ldn_path+"/test_Y.p", "rb"))
 
     else:
+      log.INFO("Using ELSE path to get data")
       tr_x, tr_y, te_x, te_y = self._dpu.get_experiment_compatible_x_y_from_dataset(
           do_normalize=self._do_normalize)
       if is_train:
@@ -106,6 +107,7 @@ class PTTrainEvalModel(object):
 
           torch.as_tensor(X_ldn[i : i+self._batch_size], dtype=EXC.PT_DTYPE),
           torch.as_tensor(Y[i : i+self._batch_size], dtype=EXC.PT_DTYPE))
+      log.INFO("A cycle of learning completed")#ok so here is where the problem really begins. 
 
   def train_model(self, epochs, ldn_path=None):
     """

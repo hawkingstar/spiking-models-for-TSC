@@ -20,7 +20,7 @@ from utils.base_utils.exp_utils import ExpUtils
 def run_net(rtc, otp_dir):
   pte = PTTrainEvalModel(args.dataset, rtc)
   log.INFO("Starting the PyTorch training...")
-  loss_history = pte.train_model(args.epochs, otp_dir)
+  loss_history = pte.train_model(args.epochs, otp_dir)#something wrong with this one? 
   #pickle.dump(loss_history, open(otp_dir + "/training_loss_history.p", "wb"))
   log.INFO("Training done, now finally evaluating on the entire test set...")
   acc, all_outputs = pte.evaluate_model(

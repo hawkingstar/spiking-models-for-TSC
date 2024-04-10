@@ -7,9 +7,10 @@ class RTC(object):
   SEED = 9
   CONFIG = 1
 
-  BATCH_SIZE = 23 # 50 for LSNN - ECG5000 and WAFER, 23 for EQUAKES.
+  #BATCH_SIZE = 20 # 50 for LSNN - ECG5000 and WAFER, 23 for EQUAKES.
   #BATCH_SIZE = 18 # 45 for LSNN 40 for FORDA, 18 for FORDB.
   #still determining an ideal batch size for COMPUTERS
+  BATCH_SIZE = 25 # for computers
 
   # Number of test samples to evaluate during training epochs.
   #TEST_EVAL_SIZE = 4500 # For ECG5000
