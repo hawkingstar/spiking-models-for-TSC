@@ -56,6 +56,10 @@ def setup_otp_dir(rtc):
   os.makedirs(otp_dir, exist_ok=True)
   return otp_dir
 
+#Paul: in this, the output directory is set up, 
+#logging is configured, 
+#and the neural network is trained and evaluated 
+#with the current set of hyperparameters.
 def call_one_combination(rtc):
   otp_dir = setup_otp_dir(rtc)
   setup_logging(rtc, otp_dir)
@@ -80,10 +84,10 @@ if __name__ == "__main__":
   if not args.is_all_combs:
     call_one_combination(RTC)
     sys.exit("One combination experiment done!")
-  else:
-    all_combs = exu.get_combinations_for_lsnn_model(EXC)
+  else:#paul: this indicates that all hyperparameter combos should be searched
+    all_combs = exu.get_combinations_for_lsnn_model(EXC)#get all combos of hyperparams
     RTC.CONFIG = 0
-    for comb in all_combs:
+    for comb in all_combs:#iterate over every combo, assigning hypers to RTC
       RTC.CONFIG += 1
       if RTC.CONFIG < args.config_num:
         continue

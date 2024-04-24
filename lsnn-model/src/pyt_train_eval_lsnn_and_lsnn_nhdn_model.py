@@ -136,14 +136,37 @@ class PTTrainEvalModel(object):
       batches = self.get_batches_of_x_y_from_ldn_sigs(True, ldn_path=ldn_path)
       batch_losses = []
       for tr_x, tr_y in batches:
+        #HERE is the key
         # Output Shape = (batch_size, signal_duration, num_clss)
-        output = self._model(tr_x)
+        log.INFO("tr_y: " + str(tr_y))
 
+        tr_y = np.eye(2)[tr_y.type(torch.int64)-1]#for COMPUTERS
+        log.INFO("new tr_y: " + str(tr_y))
+        tr_y = torch.from_numpy(tr_y)
+        log.INFO("tr_y as numpy: " + str(tr_y))#for computers end
+
+        output = self._model(tr_x)
+        log.INFO("Output size: " + str(output.size()))
+        log.INFO("Output: " + str(output))
         max_pots, _ = torch.max(output, 1)
+        log.INFO("max pots size: " + str(max_pots.size()))
+        log.INFO("max pots: " + str(max_pots))
         log_max_pots = log_softmax(max_pots)
+        log.INFO("log max pots size: " + str(log_max_pots.size()))
+        log.INFO("log max pots: " + str(log_max_pots))
         #loss_value = loss_func(log_max_pots, torch.argmax(tr_y, dim=1))
         #trying dimension zero to see what happens
-        loss_value = loss_func(log_max_pots, torch.argmax(tr_y, dim=1))
+        argingValue = torch.argmax(tr_y, dim=1)#zero for computers? one for others
+        if(argingValue.dim() == 2):#for bad computer reading apparently
+          log.INFO("Have to do a little bit of trolling due to bad reading of argmax")
+          argingValue = argingValue[:,:1].clone()
+          argingValue = argingValue.squeeze()
+
+        log.INFO("Arging value: " + str(argingValue))
+
+
+        loss_value = loss_func(log_max_pots, argingValue)
+        log.INFO("loss_value: " + str(loss_value))
 
         optimizer.zero_grad()
         loss_value.backward()

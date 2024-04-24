@@ -60,15 +60,32 @@ class EXC(object):
 
   # For EQUAKES, FORDA, and FORDB.
   # PyTorch Hyper-parameters for LSNN -------- POST ANALYSIS = 96 Combs.
-  PYTORCH_LR_LST = [0.01, 0.005] #, 0.001]
-  PYTORCH_TAU_CUR_LST = [5e-3, 10e-3]
-  PYTORCH_TAU_VOL_LST = [20e-3, 30e-3]
-  PYTORCH_VOL_THR_LST = [1, 1.5]
-  PYTORCH_NEURON_GAIN_LST = [2, 4]
-  PYTORCH_NEURON_BIAS_LST = [0, 0.5]
+  # PYTORCH_LR_LST = [0.01, 0.005] #, 0.001]
+  # PYTORCH_TAU_CUR_LST = [5e-3, 10e-3]
+  # PYTORCH_TAU_VOL_LST = [20e-3, 30e-3]
+  # PYTORCH_VOL_THR_LST = [1, 1.5]
+  # PYTORCH_NEURON_GAIN_LST = [2, 4]
+  # PYTORCH_NEURON_BIAS_LST = [0, 0.5]
 
   # PyTorch Non-Spiking Net hyper-parameters.
   # FORDA, FORDB, EQUAKES.
   #PT_NSPK_ORDER_LST = [10, 12, 16, 24]
   #PT_NSPK_THETA_LST = [0.025, 0.05, 0.1, 0.15]
   #PT_NSPK_LR_LST = [0.01, 0.005]
+
+  #For COMPUTERS by Paul
+  #Pytorch Hyper-parameters for LSNN, adapted from the previous one
+  #using config 60 which returned a bit more than 64 percent
+  # PYTORCH_LR_LST = [0.005, 0.001]
+  # PYTORCH_TAU_CUR_LST = [10e-3]
+  # PYTORCH_TAU_VOL_LST = [30e-3]
+  # PYTORCH_VOL_THR_LST = [1]
+  # PYTORCH_NEURON_GAIN_LST = [4]
+  # PYTORCH_NEURON_BIAS_LST = [0.5]
+  #unreliable apparently? next is from config 29 which returned 64 percent
+  PYTORCH_LR_LST = [0.01] #, 0.001]
+  PYTORCH_TAU_CUR_LST = [10e-3]
+  PYTORCH_TAU_VOL_LST = [30e-3]
+  PYTORCH_VOL_THR_LST = [1.5]
+  PYTORCH_NEURON_GAIN_LST = [2]
+  PYTORCH_NEURON_BIAS_LST = [0]

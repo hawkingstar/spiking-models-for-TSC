@@ -53,6 +53,7 @@ class DataPrepUtils(DRC):
     Returns:
       np.ndarray, np.ndarray, np.ndarray, np.ndarray
     """
+    log.INFO("Getting x and y from dataset")#paul
     train_x, train_y = self._load_arff_dataset(self._train_set)
     test_x, test_y = self._load_arff_dataset(self._test_set)
 
@@ -72,6 +73,7 @@ class DataPrepUtils(DRC):
       train_y <np.ndarray>: The training lables.
       test_y <np.ndarray>: The test labels.
     """
+    log.INFO("Making dataset binary classification")#paul
     train_y[np.where(train_y != 1)] = 2
     test_y[np.where(test_y != 1)] = 2
 
@@ -97,12 +99,19 @@ class DataPrepUtils(DRC):
         test_x[i] = self._normalize_values(test_x[i])
 
     if self._dataset in [EXC.ECG5000, EXC.FORDA, EXC.FORDB, EXC.WAFER,
-                         EXC.EQUAKES]:
+                         EXC.EQUAKES, EXC.COMPUTERS]:#Paul: added my dataset
+      log.INFO("Dataset is in list")#from paul
       num_samples, num_tsteps = train_x.shape
       assert num_samples == train_y.shape[0]
       train_y, test_y = self.make_dataset_binary_classification(train_y, test_y)
       assert num_samples == train_y.shape[0]
-      train_y = np.eye(self._num_clss)[train_y.astype(np.int)-1]
-      test_y = np.eye(self._num_clss)[test_y.astype(np.int)-1]
+      log.INFO("Num samples: " + str(num_samples))#from paul
+      train_y_main = np.eye(self._num_clss)
+      log.INFO("Train y main: " + str(train_y_main))#from paul
+      train_y_astype = train_y.astype(np.int64)-1
+      log.INFO("Train y astype: " + str(train_y_astype))#from paul
+      train_y = np.eye(self._num_clss)[train_y.astype(np.int64)-1]
+      test_y = np.eye(self._num_clss)[test_y.astype(np.int64)-1]
+      
 
-    return train_x, train_y, test_x, test_y
+    return train_x, train_y, test_x, test_y 
