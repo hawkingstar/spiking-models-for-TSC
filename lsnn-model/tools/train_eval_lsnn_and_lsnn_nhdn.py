@@ -17,12 +17,17 @@ from src.pyt_train_eval_lsnn_and_lsnn_nhdn_model import PTTrainEvalModel
 from utils.base_utils import log
 from utils.base_utils.exp_utils import ExpUtils
 
+#runs the lsnn model and does the model training
 def run_net(rtc, otp_dir):
-  pte = PTTrainEvalModel(args.dataset, rtc)
+  pte = PTTrainEvalModel(args.dataset, rtc)#contians the actual lsnn
   log.INFO("Starting the PyTorch training...")
-  loss_history = pte.train_model(args.epochs, otp_dir)#something wrong with this one? 
+  
+  #loss_history isn't used but the pte.train_model does the training
+  loss_history = pte.train_model(args.epochs, otp_dir)
   #pickle.dump(loss_history, open(otp_dir + "/training_loss_history.p", "wb"))
   log.INFO("Training done, now finally evaluating on the entire test set...")
+  
+  #pte.evaluate_model variables are used, this tests the model
   acc, all_outputs = pte.evaluate_model(
       num_samples=EXC.NUM_TEST_SAMPLES[args.dataset], ldn_path=otp_dir,
       final_eval=True)
@@ -63,9 +68,11 @@ def setup_otp_dir(rtc):
 def call_one_combination(rtc):
   otp_dir = setup_otp_dir(rtc)
   setup_logging(rtc, otp_dir)
-  run_net(rtc, otp_dir)
+  run_net(rtc, otp_dir) #this runs ptttrainevalmodel, method in class
   log.RESET()
 
+#main entry point, reads the command line argumetns and 
+#then calls call_one_combination(RTC) for the training process.
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument("--dataset", type=str, required=True, help="Which dataset?")
@@ -81,6 +88,8 @@ if __name__ == "__main__":
   exu = ExpUtils()
   drc = DRC(args.dataset)
 
+  #here  with call_one_combination the actual training process starts, and the
+  #logging and output directories are set up in the method itself.
   if not args.is_all_combs:
     call_one_combination(RTC)
     sys.exit("One combination experiment done!")
