@@ -9,7 +9,9 @@ import pickle
 import torch
 import numpy as np
 import sys
+
 from PIL import Image  # Import PIL for image handling
+from src.identity_model import IdentityModel
 
 from consts.exp_consts import EXC
 from src.extract_signals import ExtractSignals
@@ -45,6 +47,9 @@ class PTTrainEvalModel(object):
         if rtc.PYTORCH_MODEL_NAME == "LSNN_NHDN":
             log.INFO("Obtaining LSNN_NHDN with batchsize = %s" % rtc.BATCH_SIZE)
             self._model = LSNN_NHDN(dataset, rtc)
+        if rtc.PYTORCH_MODEL_NAME == "IDENTITY":
+            log.INFO("Using IdentityModel for passthrough testing")
+            self._model = IdentityModel()
 
         self._dpu = DataPrepUtils(dataset, rtc)
         self._exs = ExtractSignals(rtc)
