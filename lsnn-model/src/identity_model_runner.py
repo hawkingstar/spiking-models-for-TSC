@@ -1,9 +1,11 @@
 import os
 import torch
+import sys
 from torch.utils.data import DataLoader
 from torchvision import transforms
 from torchvision.utils import save_image
-from src.image_dataset import ImageDataset  # Your earlier version
+from image_dataset import ImageDataset  # Your earlier version
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils.preview_utils import save_patch_grid  # From earlier step
 
 #SETTINGS 
@@ -40,4 +42,4 @@ for step, (distorted, clean) in enumerate(dataloader):
     if step >= 2:  #only first 3 batches
         break
 
-print("Done:)")
+print("Done :)")
