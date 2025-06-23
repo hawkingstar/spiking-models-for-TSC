@@ -1,4 +1,5 @@
-#custom skeleton to prepare a LSNN model to eventually
+#basically a copy of cnn_model_runner with different 
+#model to run on
 import os
 import sys
 import torch
@@ -7,6 +8,9 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, random_split
 from torchvision import transforms
 from cnn import CNN
+
+from lsnn_image_denoiser import LSNNImageDenoiser
+from lsnn_image_denoiser import SpikeEncoder2D
 
 from patch_dataset import PatchDataset
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -44,8 +48,8 @@ val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False)
 test_dataset = PatchDataset(test_distorted_path, test_clean_path, transform=transform)
 test_loader = DataLoader(test_dataset, batch_size=16, shuffle=False)
 
-# le model
-model = CNN().to(device)
+# le model, lsnn based this time
+model = LSNNImageDenoiser().to(device)
 optimizer = optim.Adam(model.parameters(), lr=0.0002)
 criterion = nn.MSELoss()
 
@@ -62,6 +66,13 @@ for epoch in range(n_epochs):
         distorted, clean = distorted.to(device), clean.to(device)
         optimizer.zero_grad()
         output = model(distorted)
+
+        #debugging output shape for the very first batch
+        if epoch == 0 and batch_idx == 0:
+            print("Input shape:", distorted.shape)
+            print("Output shape:", output.shape)
+            print("Target shape:", clean.shape)
+
         loss = criterion(output, clean)
         loss.backward()
         optimizer.step()
@@ -82,13 +93,15 @@ for epoch in range(n_epochs):
 
     avg_val_loss = running_val_loss / len(val_loader)
     val_loss.append(avg_val_loss)
-
+    
     print(f"Epoch {epoch+1}/{n_epochs}, Train Loss: {avg_train_loss:.4f}, Val Loss: {avg_val_loss:.4f}")
 
     # Save sample output grid for inspection
     save_patch_grid(distorted.cpu(), output.cpu(), clean.cpu(), output_dir, step=epoch)
 
     #ave model checkpoint
-    torch.save(model.state_dict(), os.path.join(output_dir, f"cnn_epoch_{epoch+1}.pth"))
+    #changed the name to lsnn epochs
+    torch.save(model.state_dict(), os.path.join(output_dir, f"lsnn_epoch_{epoch+1}.pth"))
+
 
 print("Training complete :)")
