@@ -1,4 +1,4 @@
- import numpy as np
+import numpy as np
 import torch
 
 from utils.base_utils.base_ldn_utils import BaseLDN

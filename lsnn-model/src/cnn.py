@@ -23,17 +23,32 @@ class CNN(nn.Module):
     def __init__(self):
         super(CNN, self).__init__()
         
-        self.conv1 = nn.Conv2d(1, 16, kernel_size=(1,3), stride=(1,1), padding=(0,1))
-        self.conv2 = nn.Conv2d(16, 32, kernel_size=(1,3), stride=(1,1), padding=(0,1))
-        self.conv3 = nn.Conv2d(32, 64, kernel_size=(1,3), stride=(1,1), padding=(0,1))
-        self.conv4 = nn.Conv2d(64, 128, kernel_size=(1,3), stride=(1,1), padding=(0,1))
-        self.conv5 = nn.Conv2d(128, 256, kernel_size=(1,3), stride=(1,1), padding=(0,1))
+        # Encoder
+        # Now 3x3
+        self.conv1 = nn.Conv2d(1, 16, kernel_size=3, stride=1, padding=1)  
+        self.conv2 = nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1)
+        self.conv3 = nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1)
+        self.conv4 = nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1)
+        self.conv5 = nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1)
+
+        # Decoder
+        self.deconv5 = nn.ConvTranspose2d(512, 128, kernel_size=3, stride=1, padding=1)
+        self.deconv4 = nn.ConvTranspose2d(256, 64, kernel_size=3, stride=1, padding=1)
+        self.deconv3 = nn.ConvTranspose2d(128, 32, kernel_size=3, stride=1, padding=1)
+        self.deconv2 = nn.ConvTranspose2d(64, 16, kernel_size=3, stride=1, padding=1)
+        self.deconv1 = nn.ConvTranspose2d(32, 1, kernel_size=3, stride=1, padding=1)
+
+        # self.conv1 = nn.Conv2d(1, 16, kernel_size=(1,3), stride=(1,1), padding=(0,1))
+        # self.conv2 = nn.Conv2d(16, 32, kernel_size=(1,3), stride=(1,1), padding=(0,1))
+        # self.conv3 = nn.Conv2d(32, 64, kernel_size=(1,3), stride=(1,1), padding=(0,1))
+        # self.conv4 = nn.Conv2d(64, 128, kernel_size=(1,3), stride=(1,1), padding=(0,1))
+        # self.conv5 = nn.Conv2d(128, 256, kernel_size=(1,3), stride=(1,1), padding=(0,1))
         
-        self.deconv5 = nn.ConvTranspose2d(512, 128, kernel_size=(1,3), stride=(1,1), padding=(0,1))
-        self.deconv4 = nn.ConvTranspose2d(256, 64, kernel_size=(1,3), stride=(1,1), padding=(0,1))
-        self.deconv3 = nn.ConvTranspose2d(128, 32, kernel_size=(1,3), stride=(1,1), padding=(0,1))
-        self.deconv2 = nn.ConvTranspose2d(64, 16, kernel_size=(1,3), stride=(1,1), padding=(0,1))
-        self.deconv1 = nn.ConvTranspose2d(32, 1, kernel_size=(1,3), stride=(1,1), padding=(0,1))
+        # self.deconv5 = nn.ConvTranspose2d(512, 128, kernel_size=(1,3), stride=(1,1), padding=(0,1))
+        # self.deconv4 = nn.ConvTranspose2d(256, 64, kernel_size=(1,3), stride=(1,1), padding=(0,1))
+        # self.deconv3 = nn.ConvTranspose2d(128, 32, kernel_size=(1,3), stride=(1,1), padding=(0,1))
+        # self.deconv2 = nn.ConvTranspose2d(64, 16, kernel_size=(1,3), stride=(1,1), padding=(0,1))
+        # self.deconv1 = nn.ConvTranspose2d(32, 1, kernel_size=(1,3), stride=(1,1), padding=(0,1))
 
         
         self.elu = nn.ELU(inplace=True)
@@ -50,6 +65,7 @@ class CNN(nn.Module):
         e5 = self.elu(self.conv5(e4))
         # print(f'e5:{e5.shape}')
         
+        #the decoder with skip connections et al.
         d5 = self.elu(self.deconv5(torch.cat([e5, e5], dim=1)))
         # print(f'd5_real:{d5.shape}')
         d4 = self.elu(self.deconv4(torch.cat([d5, e4], dim=1)))
@@ -65,5 +81,5 @@ class CNN(nn.Module):
         
         return out
     
-model = CNN()
-model = model.to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
+#model = CNN()
+#model = model.to(torch.device('cuda' if torch.cuda.is_available() else 'cpu'))
