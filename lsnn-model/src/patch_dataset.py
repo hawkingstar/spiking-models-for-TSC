@@ -14,6 +14,7 @@ class PatchDataset(Dataset):
         self.clean_data_dir = clean_data_dir
        
         # Get list of distorted and clean files, sorted naturally
+        # natsorted is how the grayscale noised files are able to match to the base truths
         self.data_files_distorted = natsorted([f for f in os.listdir(distorted_data_dir) if f.endswith(('.jpg', '.JPG', '.jpeg', '.JPEG', '.png'))])
         self.data_files_clean = natsorted([f for f in os.listdir(clean_data_dir) if f.endswith(('.jpg', '.JPG', '.jpeg', '.JPEG', '.png'))])
        
