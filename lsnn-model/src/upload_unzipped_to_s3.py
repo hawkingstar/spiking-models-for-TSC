@@ -1,27 +1,29 @@
-
-
 import zipfile
+import boto3
 import os
 
-zip_path = '/workspaces/spiking-models-for-TSC/added-datasets/Grayscale_Train_AWGNPatches(EbNo10).zip'  # Replace with your zip path
-extract_to = 's3://codespace-machine-learning/datasets/train-grayscale/'  # Destination directory
+# --- Your Config ---
+zip_path = '/workspaces/spiking-models-for-TSC/added-datasets/Grayscale_Train_AWGNPatches(EbNo10).zip'
+bucket_name = 'codespace-machine-learning'
+s3_prefix = 'datasets/train-grayscale/'  # S3 path prefix inside the bucket
 
-os.makedirs(extract_to, exist_ok=True)
+# --- AWS Client Setup ---
+s3 = boto3.client('s3')
 
+# --- Extract and Upload ---
 with zipfile.ZipFile(zip_path, 'r') as zip_ref:
     for member in zip_ref.namelist():
-        # kip directory entries
         if member.endswith('/'):
-            continue
-        # Extract file directly into the target folder, ignoring nested structure
+            continue  # Skip folders
         filename = os.path.basename(member)
         if not filename:
             continue
-        source = zip_ref.open(member)
-        target_path = os.path.join(extract_to, filename)
-        with open(target_path, "wb") as target:
-            with source as src:
-                target.write(src.read())
 
+        print(f"Uploading {filename}...")
 
-print("All files uploaded.")
+        # Read file directly from zip
+        with zip_ref.open(member) as source_file:
+            s3_key = s3_prefix + filename  # Full S3 key
+            s3.upload_fileobj(source_file, bucket_name, s3_key)
+
+print("All files extracted and uploaded directly to S3.")
