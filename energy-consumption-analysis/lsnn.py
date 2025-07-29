@@ -25,6 +25,8 @@ def get_nengo_lsnn_model(x, A_p, B_p, t_mat, lyr_e2h, lyr_h2o, d):
 
   with nengo.Network() as net:
     inp = nengo.Node(output = lambda t: x[int(t*1000)-1])
+    
+    #main thing creating order, which is d
     ldn = nengo.Node(size_in=d)
     enc = nengo.Ensemble(2*d, 1, neuron_type=nengo.SpikingRectifiedLinear())
     hdn = nengo.Ensemble(3*d, 1, neuron_type=nengo.SpikingRectifiedLinear())
