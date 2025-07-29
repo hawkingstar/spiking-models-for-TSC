@@ -3,3 +3,10 @@
 */__pycache__
 
 .ipynb_checkpoints
+awscliv2.zip
+added-datasets/Grayscale_Test_AWGNPatches(EbNo10).zip
+added-datasets/Grayscale_Train_AWGNPatches(EbNo10).zip
+added-datasets/Grayscale_Val_AWGNPatches(EbNo10).zip
+added-datasets/test_base_truth.zip
+added-datasets/train_base_truth.zip
+added-datasets/validation_base_truth.zip
